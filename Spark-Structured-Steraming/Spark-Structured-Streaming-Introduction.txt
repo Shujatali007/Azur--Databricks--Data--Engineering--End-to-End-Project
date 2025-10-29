@@ -1,0 +1,19 @@
+Spark-Structured-Streaming-Introduction
+
+01-Processing-Streaming-Source-Data
+
+
+%md
+# Reading from a Streaming Source Data and Writing
+
+***Notebook Name*** : 01-Processing-Streaming-Source-Data
+
+***Source Stream Data Schema*** : "ARRIVAL_IN_TONNES double,DATETIME_OF_PRICING string ,MARKET_NAME string,MAXIMUM_PRICE double,MINIMUM_PRICE double,MODAL_PRICE double,ORIGIN string,PRODUCTGROUP_NAME string,PRODUCT_NAME string,ROW_ID long,STATE_NAME string,VARIETY string,source_stream_load_datetime string"
+
+##### Structured Streaming Classes
+- <a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamReader.html" target="_blank">DataStreamReader</a>
+- <a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamWriter.html" target="_blank">DataStreamWriter</a>
+- <a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.StreamingQuery.html" target="_blank">StreamingQuery</a>
+
+sourceStreamJSONFilePath = 'abfss://bronze@adlsudadatalakedev.dfs.core.windows.net/daily-pricing-streaming-source-data'
+sinkStreamJSONFilePath = 'abfss://bronze@adlsudadatalakedev.dfs.core.windows.net/daily-pricing-streaming-data/json'

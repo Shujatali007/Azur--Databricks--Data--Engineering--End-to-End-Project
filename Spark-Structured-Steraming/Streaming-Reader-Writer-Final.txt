@@ -1,0 +1,54 @@
+sourceStreamJSONFileDF = (spark
+                          .readStream
+                          .schema("ARRIVAL_IN_TONNES double,DATETIME_OF_PRICING string ,MARKET_NAME string,MAXIMUM_PRICE double,MINIMUM_PRICE double,MODAL_PRICE double,ORIGIN string,PRODUCTGROUP_NAME string,PRODUCT_NAME string,ROW_ID long,STATE_NAME string,VARIETY string,source_stream_load_datetime string")
+                          .format("json")
+                          .load(sourceStreamJSONFilePath))
+
+ #.option("inferSchema","true")
+
+(sourceStreamJSONFileDF
+ .writeStream
+ .format("json")
+ .start(sinkStreamJSONFilePath)
+)
+
+sinkStreamJSONcheckpointPath = 'abfss://bronze@adlsudadatalakedev.dfs.core.windows.net/bronze/daily-pricing-streaming-data/json/checkpoint'
+
+(sourceStreamJSONFileDF
+ .writeStream
+ .format("json")
+ .option("checkpointLocation", sinkStreamJSONcheckpointPath)
+ .start(sinkStreamJSONFilePath)
+)
+
+streamProcessingQuery =
+
+ .outputMode("append")
+ .queryName("stream-processing")
+ .trigger(processingTime = "5 Minutes")
+
+streamProcessingQuery =(sourceStreamJSONFileDF
+ .writeStream
+ .outputMode("append")
+ .format("json")
+ .queryName("stream-processing")
+ .trigger(processingTime = "5 Minutes")
+ .option("checkpointLocation", sinkStreamJSONcheckpointPath)
+ .start(sinkStreamJSONFilePath)
+)
+
+streamProcessingQuery.id
+
+streamProcessingQuery.status
+
+streamProcessingQuery.lastProgress
+
+StreamDF = (spark
+             .read
+             .format("json")
+             .load(sinkStreamJSONFilePath)
+             )
+
+display(StreamDF.count())
+
+streamProcessingQuery.stop()
