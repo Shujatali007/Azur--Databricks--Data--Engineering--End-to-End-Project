@@ -1,0 +1,3 @@
+            "spark_conf": {
+                "spark.hadoop.fs.azure.account.key.adlsudadatalakedev.dfs.core.windows.net": "<datalakestorageaccountname>"
+            },
